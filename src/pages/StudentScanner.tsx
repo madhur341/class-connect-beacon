@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BeaconControls } from '@/components/BeaconControls';
 import { WebBluetoothDemo } from '@/components/WebBluetoothDemo';
-import { ArrowLeft, CheckCircle, Clock, MapPin } from 'lucide-react';
+import { NativeBLE } from '@/components/NativeBLE';
+import { ArrowLeft, CheckCircle, Clock, MapPin, Smartphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const StudentScanner: React.FC = () => {
   const [attendanceStatus, setAttendanceStatus] = useState<'not_marked' | 'pending' | 'confirmed'>('not_marked');
@@ -123,17 +125,33 @@ const StudentScanner: React.FC = () => {
             <BeaconControls isTeacher={false} />
           </div>
 
-          {/* Web Bluetooth Demo */}
+          {/* Native BLE vs Web Comparison */}
           <div>
             <Card className="glass-card shadow-card">
               <CardHeader>
-                <CardTitle>Web Bluetooth Integration</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Smartphone className="w-5 h-5" />
+                  Mobile App vs Web
+                </CardTitle>
                 <CardDescription>
-                  Experience real Bluetooth functionality in your browser
+                  Experience the difference between web limitations and full native capabilities
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <WebBluetoothDemo />
+                <Tabs defaultValue="native" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="native">📱 Mobile App</TabsTrigger>
+                    <TabsTrigger value="web">🌐 Web Browser</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="native" className="mt-4">
+                    <NativeBLE isTeacher={false} />
+                  </TabsContent>
+                  
+                  <TabsContent value="web" className="mt-4">
+                    <WebBluetoothDemo />
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           </div>

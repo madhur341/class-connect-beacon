@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BeaconControls } from '@/components/BeaconControls';
 import { AttendanceStats, StudentList } from '@/components/AttendanceStats';
-import { ArrowLeft, Download, RefreshCw, Settings } from 'lucide-react';
+import { NativeBLE } from '@/components/NativeBLE';
+import { ArrowLeft, Download, RefreshCw, Settings, Smartphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const TeacherDashboard: React.FC = () => {
   const [students] = useState([
@@ -81,8 +83,34 @@ const TeacherDashboard: React.FC = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Beacon Controls */}
-          <div className="lg:col-span-1">
-            <BeaconControls isTeacher={true} />
+          <div className="lg:col-span-1 space-y-6">
+            <Card className="glass-card shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Smartphone className="w-5 h-5" />
+                  Beacon Management
+                </CardTitle>
+                <CardDescription>
+                  Choose between web demo or native mobile capabilities
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="native" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="native" className="text-xs">📱 Mobile</TabsTrigger>
+                    <TabsTrigger value="demo" className="text-xs">🌐 Demo</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="native" className="mt-4">
+                    <NativeBLE isTeacher={true} />
+                  </TabsContent>
+                  
+                  <TabsContent value="demo" className="mt-4">
+                    <BeaconControls isTeacher={true} />
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Main Content */}
