@@ -2,41 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Smart Attendance Design System - Modern BLE Beacon Interface */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Brand Colors */
+    --background: 220 15% 98%;
+    --foreground: 222 84% 5%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 84% 5%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 84% 5%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Tech Blue */
+    --primary: 216 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 216 100% 60%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Electric Purple */
+    --secondary: 270 100% 80%;
+    --secondary-foreground: 270 100% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Tech Accent Colors */
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 100%;
+    
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 216 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(216 100% 50%), hsl(270 100% 60%));
+    --gradient-secondary: linear-gradient(135deg, hsl(270 100% 70%), hsl(216 100% 70%));
+    --gradient-accent: linear-gradient(135deg, hsl(142 76% 36%), hsl(216 100% 50%));
+    --gradient-glow: linear-gradient(135deg, hsl(216 100% 50% / 0.1), hsl(270 100% 60% / 0.1));
+
+    /* Shadows */
+    --shadow-primary: 0 10px 30px -10px hsl(216 100% 50% / 0.3);
+    --shadow-glow: 0 0 40px hsl(216 100% 60% / 0.4);
+    --shadow-card: 0 4px 12px -4px hsl(220 13% 91% / 0.8);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +125,94 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Beacon Animation Keyframes */
+  @keyframes beacon-pulse {
+    0%, 100% { 
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% { 
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes beacon-ripple {
+    0% {
+      transform: scale(0.8);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  @keyframes scanning-radar {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes signal-strength {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Component Styles */
+  .beacon-active {
+    animation: beacon-pulse 2s ease-in-out infinite;
+  }
+
+  .beacon-ripple {
+    animation: beacon-ripple 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .scanning-radar {
+    animation: scanning-radar 2s linear infinite;
+  }
+
+  .signal-bar {
+    animation: signal-strength 1.5s ease-in-out infinite;
+  }
+
+  /* Glassmorphism Effects */
+  .glass-card {
+    background: linear-gradient(135deg, 
+      hsl(var(--card) / 0.8), 
+      hsl(var(--card) / 0.4)
+    );
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.2);
+  }
+
+  .glass-button {
+    background: linear-gradient(135deg,
+      hsl(var(--primary) / 0.1),
+      hsl(var(--primary) / 0.05)
+    );
+    backdrop-filter: blur(8px);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    transition: var(--transition-smooth);
+  }
+
+  .glass-button:hover {
+    background: linear-gradient(135deg,
+      hsl(var(--primary) / 0.2),
+      hsl(var(--primary) / 0.1)
+    );
+    border: 1px solid hsl(var(--primary) / 0.4);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
   }
 }
